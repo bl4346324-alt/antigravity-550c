@@ -41,19 +41,28 @@
     // 1. Prewarm Antigravity in background quietly so it is ready when the animation finishes
     [self prewarmTargetApp];
     
-    // 2. Setup full screen borderless window
+    // 2. Setup centered high-tech terminal window (avoiding full-screen stretch)
     NSScreen *screen = [NSScreen mainScreen] ?: [NSScreen screens].firstObject;
-    NSRect screenFrame = screen ? screen.frame : NSMakeRect(0, 0, 1920, 1080);
+    NSRect visibleFrame = screen ? screen.visibleFrame : NSMakeRect(0, 0, 1920, 1080);
     
-    self.window = [[SplashWindow alloc] initWithContentRect:screenFrame
+    CGFloat targetW = 1100.0;
+    CGFloat targetH = 680.0;
+    if (visibleFrame.size.width < targetW + 40.0) targetW = visibleFrame.size.width - 40.0;
+    if (visibleFrame.size.height < targetH + 60.0) targetH = visibleFrame.size.height - 60.0;
+    
+    CGFloat originX = visibleFrame.origin.x + (visibleFrame.size.width - targetW) / 2.0;
+    CGFloat originY = visibleFrame.origin.y + (visibleFrame.size.height - targetH) / 2.0;
+    NSRect winRect = NSMakeRect(originX, originY, targetW, targetH);
+    
+    self.window = [[SplashWindow alloc] initWithContentRect:winRect
                                                   styleMask:NSWindowStyleMaskBorderless
                                                     backing:NSBackingStoreBuffered
                                                       defer:NO];
-    self.window.backgroundColor = [NSColor blackColor];
-    self.window.opaque = YES;
-    self.window.hasShadow = NO;
+    self.window.backgroundColor = [NSColor clearColor];
+    self.window.opaque = NO;
+    self.window.hasShadow = YES;
     self.window.level = NSFloatingWindowLevel;
-    self.window.collectionBehavior = NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorFullScreenAuxiliary;
+    self.window.collectionBehavior = NSWindowCollectionBehaviorCanJoinAllSpaces;
     
     // 3. Setup WebKit View
     WKUserContentController *contentController = [[WKUserContentController alloc] init];
@@ -63,10 +72,15 @@
     config.userContentController = contentController;
     [config.preferences setValue:@YES forKey:@"allowFileAccessFromFileURLs"];
     
-    self.webView = [[WKWebView alloc] initWithFrame:NSMakeRect(0, 0, screenFrame.size.width, screenFrame.size.height)
+    self.webView = [[WKWebView alloc] initWithFrame:NSMakeRect(0, 0, targetW, targetH)
                                       configuration:config];
     self.webView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     [self.webView setValue:@NO forKey:@"drawsBackground"];
+    self.webView.wantsLayer = YES;
+    self.webView.layer.cornerRadius = 12.0;
+    self.webView.layer.masksToBounds = YES;
+    self.webView.layer.borderColor = [NSColor colorWithRed:232.0/255.0 green:160.0/255.0 blue:32.0/255.0 alpha:0.35].CGColor;
+    self.webView.layer.borderWidth = 1.0;
     
     // Locate 550c.html
     NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"550c" ofType:@"html"];

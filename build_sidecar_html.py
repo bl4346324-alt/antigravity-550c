@@ -26,6 +26,12 @@ sidecar_tail = """
 const RESPONSIVE_CSS = `
   /* ── 侧边栏/宽窄屏响应式适配 ── */
   @media (max-width: 820px) {
+    #app {
+      max-width: 100% !important;
+      max-height: 100% !important;
+      padding: 4px !important;
+      gap: 4px !important;
+    }
     #workspace {
       display: flex !important;
       flex-direction: column !important;
@@ -33,35 +39,36 @@ const RESPONSIVE_CSS = `
       gap: 6px !important;
     }
     #w-tele, #w-main, #w-code, #w-node {
-      min-height: 220px;
+      min-height: 180px;
       flex: none;
     }
     #w-main {
-      min-height: 280px;
+      min-height: 240px;
     }
     .boot-stage svg {
-      width: min(380px, 92vw) !important;
+      width: min(340px, 90vw) !important;
+      max-height: 110px !important;
     }
     .win-popup {
-      min-width: 280px !important;
-      max-width: 95vw !important;
+      min-width: 260px !important;
+      max-width: 92vw !important;
       left: 50% !important;
       top: 50% !important;
       transform: translate(-50%, -50%) !important;
     }
     #final {
-      font-size: clamp(20px, 5vw, 40px) !important;
-      padding: 24px 28px !important;
+      font-size: clamp(16px, 4vw, 24px) !important;
+      padding: 14px 22px !important;
       white-space: normal !important;
     }
     #hud-top {
-      font-size: 9.5px !important;
-      gap: 8px !important;
+      font-size: 9px !important;
+      gap: 6px !important;
       padding: 0 6px !important;
     }
     #hud-bot {
-      font-size: 8.5px !important;
-      gap: 8px !important;
+      font-size: 8px !important;
+      gap: 6px !important;
     }
   }
 
