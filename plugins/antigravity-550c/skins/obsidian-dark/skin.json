@@ -1,0 +1,19 @@
+{
+  "id": "obsidian-dark",
+  "name": "黑曜极客 (Obsidian Dark)",
+  "tagline": "Codex / OLED 极夜微透黑曜石 · 高对比度深色微晶",
+  "accentColor": "#818cf8",
+  "author": "Antigravity Team",
+  "version": "1.0.0",
+  "themeType": "dark",
+  "recommendedPreset": "nasa-galaxies",
+  "defaultParams": {
+    "scrimOpacity": 0.35,
+    "backdropBlur": 10,
+    "sidebarAlpha": 0.28,
+    "composerFrost": 26,
+    "cardAlpha": 0.58,
+    "saturation": 120,
+    "playbackRate": 1.0
+  }
+}

@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>550C & Wallpaper · 控制中心</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(18, 24, 38, 0.68);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.35);
+      --amber: #e8a020;
+      --amber-glow: rgba(232, 160, 32, 0.35);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: -20%;
+      left: 20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, transparent 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .brand h1 {
+      font-size: 22px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #ffffff 40%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .brand p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #34d399;
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      backdrop-filter: blur(10px);
+    }
+    .status-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 10px #34d399;
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 6px;
+      border-radius: 14px;
+      border: 1px solid var(--card-border);
+    }
+    .tab-btn {
+      flex: 1;
+      text-align: center;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      user-select: none;
+    }
+    .tab-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      color: #0b0f19;
+      box-shadow: 0 0 18px var(--accent-glow);
+    }
+    .tab-btn.active.tab-amber {
+      background: var(--amber);
+      color: #0b0f19;
+      box-shadow: 0 0 18px var(--amber-glow);
+    }
+
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.25s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #e2e8f0;
+    }
+
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(24px);
+    }
+
+    /* Boot Tab Styles */
+    .hero-card {
+      background: linear-gradient(135deg, rgba(232, 160, 32, 0.08) 0%, rgba(15, 23, 42, 0.8) 100%);
+      border: 1px solid rgba(232, 160, 32, 0.35);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::after {
+      content: "550C";
+      position: absolute;
+      right: -20px;
+      bottom: -30px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 140px;
+      font-weight: 900;
+      color: rgba(232, 160, 32, 0.03);
+      pointer-events: none;
+      letter-spacing: -6px;
+    }
+    .hero-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffc043;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .hero-desc {
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      max-width: 680px;
+    }
+    .mode-pills {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .mode-pill {
+      padding: 10px 16px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 13px;
+      color: #cbd5e1;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+      min-width: 220px;
+    }
+    .mode-pill:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(232, 160, 32, 0.4);
+    }
+    .mode-pill.active {
+      background: rgba(232, 160, 32, 0.14);
+      border-color: var(--amber);
+      color: #ffc043;
+    }
+    .mode-pill-header {
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .mode-pill-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .play-boot-btn {
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #e8a020 0%, #ffc043 100%);
+      color: #0b0f19;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 20px rgba(232, 160, 32, 0.4);
+    }
+    .play-boot-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 26px rgba(232, 160, 32, 0.6);
+    }
+    .play-boot-btn:active {
+      transform: translateY(0);
+    }
+
+    .switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 20px;
+    }
+    .switch-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .switch-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+    .switch-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .toggle-checkbox {
+      position: relative;
+      width: 46px;
+      height: 24px;
+      -webkit-appearance: none;
+      background: rgba(255, 255, 255, 0.15);
+      outline: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .toggle-checkbox:checked {
+      background: var(--amber);
+    }
+    .toggle-checkbox::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      background: #ffffff;
+      transition: all 0.25s ease;
+    }
+    .toggle-checkbox:checked::before {
+      left: 24px;
+      background: #0b0f19;
+    }
+
+    .status-highlight-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .status-highlight-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .status-highlight-icon {
+      font-size: 24px;
+    }
+
+    /* Skins Grid */
+    .skins-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .skin-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+    }
+    .skin-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+    .skin-card.active {
+      border-color: var(--card-accent, #38bdf8);
+      box-shadow: 0 0 0 1px var(--card-accent, #38bdf8), 0 8px 30px rgba(56, 189, 248, 0.2);
+    }
+    .skin-preview-banner {
+      height: 80px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .skin-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+    .skin-tagline {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 12px;
+      min-height: 32px;
+    }
+    .skin-btn {
+      width: 100%;
+      padding: 8px 0;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.08);
+      color: #f1f5f9;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .skin-card.active .skin-btn {
+      background: var(--card-accent, #38bdf8);
+      color: #0b0f19;
+      border-color: var(--card-accent, #38bdf8);
+    }
+    .skin-card:hover .skin-btn {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .skin-card.active:hover .skin-btn {
+      background: var(--card-accent, #38bdf8);
+      opacity: 0.9;
+    }
+
+    /* Video Presets */
+    .video-presets {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .preset-chip {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+      font-size: 13px;
+      color: #e2e8f0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .preset-chip:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+    .preset-chip.active {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+    .input-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .input-box {
+      flex: 1;
+      padding: 10px 14px;
+      background: rgba(11, 15, 25, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 13px;
+      outline: none;
+      transition: border 0.2s ease;
+    }
+    .input-box:focus {
+      border-color: #38bdf8;
+    }
+    .action-btn {
+      padding: 10px 20px;
+      background: #38bdf8;
+      border: none;
+      border-radius: 10px;
+      color: #0b0f19;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .action-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* Sliders Grid */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .slider-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #cbd5e1;
+    }
+    .slider-val {
+      font-family: 'JetBrains Mono', monospace;
+      color: #38bdf8;
+      font-weight: 600;
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #38bdf8;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+      transition: transform 0.1s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <h1>✨ 550C & Wallpaper · 控制中心</h1>
+        <p>流浪地球 550C 量子开机引导动画 × DeepSeek Harness 动态壁纸引擎</p>
+      </div>
+      <div class="status-badge">
+        <span class="dot"></span>
+        <span>已连接 CDP 宿主 · 实时同步</span>
+      </div>
+    </header>
+
+    <!-- Nav Tabs -->
+    <div class="nav-tabs">
+      <div class="tab-btn active tab-amber" data-tab="boot">🎬 启动动画中心</div>
+      <div class="tab-btn" data-tab="wallpaper">🎨 动态壁纸与皮肤</div>
+      <div class="tab-btn" data-tab="terminal">🖥️ 550C 量子终端</div>
+    </div>
+
+    <!-- TAB 1: BOOT ANIMATION -->
+    <div id="tab-boot" class="tab-content active">
+      <div class="hero-card">
+        <div class="hero-title">
+          <span>◢ 550C 量子计算机开机引导</span>
+        </div>
+        <div class="hero-desc">
+          在反重力宿主窗口全屏播放 550C 矢量标志绘制与系统引导动画。动画播放完毕（或随时按下 ESC / 点击跳过）时，将以高斯模糊（16px）与柔和缩放淡出，丝滑平滑过渡至底层的动态视频背景。
+        </div>
+
+        <div class="mode-pills">
+          <div class="mode-pill active" data-mode="simple">
+            <div class="mode-pill-header">⚡ 快速开机动画 (Simple Mode)</div>
+            <div class="mode-pill-sub">约 3.5 秒 · 550C 矢量逐笔绘制、荧光脉冲与初始化就绪提示</div>
+          </div>
+          <div class="mode-pill" data-mode="full">
+            <div class="mode-pill-header">🌐 完整系统重写 (Full Mode)</div>
+            <div class="mode-pill-sub">包含无人机智能体阵列、固件注入终端与系统重写模拟全流程</div>
+          </div>
+        </div>
+
+        <button id="triggerBootBtn" class="play-boot-btn">
+          <span>▶ 立即在主窗口播放 550C 启动动画</span>
+        </button>
+
+        <div class="switch-row">
+          <div class="switch-info">
+            <div class="switch-title">开机自启自动播放</div>
+            <div class="switch-sub">每次打开或重新加载 Antigravity 窗口时，自动运行 550C 启动动效切入壁纸</div>
+          </div>
+          <input type="checkbox" id="toggleAutoBoot" class="toggle-checkbox">
+        </div>
+      </div>
+
+      <div class="status-highlight-card">
+        <div class="status-highlight-info">
+          <div class="status-highlight-icon">🔥</div>
+          <div>
+            <div style="font-weight: 600; font-size: 14px; color: #f8fafc;" id="currentVideoNameDisplay">当前底层联动壁纸：卡卡西·写轮眼狂怒 (HD Live)</div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">底层视频保持静音循环预加载，启动动画消散时无卡顿丝滑露出</div>
+          </div>
+        </div>
+        <button class="action-btn" onclick="switchTab('wallpaper')">更换动态壁纸</button>
+      </div>
+    </div>
+
+    <!-- TAB 2: WALLPAPER & SKINS -->
+    <div id="tab-wallpaper" class="tab-content">
+      <!-- Theme Skin Catalog -->
+      <div class="section-title">🎨 视觉主题风格 (Skin Catalog)</div>
+      <div class="skins-grid" id="skinsContainer">
+        <!-- Injected dynamically by JS -->
+      </div>
+
+      <!-- Video Wallpaper Engine -->
+      <div class="section-title">🎬 动态视频壁纸 (Dynamic Backdrop)</div>
+      <div class="panel">
+        <div class="video-presets">
+          <div class="preset-chip" data-preset="kakashi-red-eyed-fury" data-url="http://127.0.0.1:5566/assets/kakashi.mp4">
+            🔥 卡卡西·写轮眼狂怒 (Kakashi Live HD)
+          </div>
+          <div class="preset-chip" data-preset="nasa-galaxies" data-url="http://127.0.0.1:5566/assets/nasa_galaxies.webm">
+            🌌 NASA 罗马深空星系 (2K 流光)
+          </div>
+          <div class="preset-chip" data-preset="crystal-anime" data-url="http://127.0.0.1:5566/assets/crystal_anime.png">
+            💎 晶莹琉璃原画 (参考图同款)
+          </div>
+        </div>
+        <div class="input-row">
+          <input type="text" id="videoUrlInput" class="input-box" placeholder="输入网络视频 .mp4 / .webm 直链，或本地视频文件绝对路径...">
+          <button id="applyVideoBtn" class="action-btn">应用视频</button>
+        </div>
+      </div>
+
+      <!-- Sliders for Fine-Tuning -->
+      <div class="section-title">🎛️ 毛玻璃与视觉调校 (Fine-Tuning Controls)</div>
+      <div class="panel">
+        <div class="controls-grid">
+          <div class="slider-item">
+            <div class="slider-header">
+              <span>背景遮罩浓度 (Scrim Occlusion)</span>
+              <span class="slider-val" id="valScrim">25%</span>
+            </div>
+            <input type="range" id="rangeScrim" min="0" max="80" step="1" value="25">
+          </div>
+
+          <div class="slider-item">
+            <div class="slider-header">
+              <span>背景高斯模糊 (Backdrop Blur)</span>
+              <span class="slider-val" id="valBlur">14px</span>
+            </div>
+            <input type="range" id="rangeBlur" min="0" max="30" step="1" value="14">
+          </div>
+
+          <div class="slider-item">
+            <div class="slider-header">
+              <span>侧边栏通透度 (Sidebar Alpha)</span>
+              <span class="slider-val" id="valSidebar">22%</span>
+            </div>
+            <input type="range" id="rangeSidebar" min="10" max="75" step="1" value="22">
+          </div>
+
+          <div class="slider-item">
+            <div class="slider-header">
+              <span>输入框毛玻璃强度 (Composer Frost)</span>
+              <span class="slider-val" id="valComposer">28px</span>
+            </div>
+            <input type="range" id="rangeComposer" min="15" max="40" step="1" value="28">
+          </div>
+
+          <div class="slider-item">
+            <div class="slider-header">
+              <span>对话卡片透明度 (Card Alpha)</span>
+              <span class="slider-val" id="valCard">50%</span>
+            </div>
+            <input type="range" id="rangeCard" min="20" max="80" step="1" value="50">
+          </div>
+
+          <div class="slider-item">
+            <div class="slider-header">
+              <span>画面饱和度 (Saturation)</span>
+              <span class="slider-val" id="valSat">130%</span>
+            </div>
+            <input type="range" id="rangeSat" min="80" max="200" step="5" value="130">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: 550C TERMINAL -->
+    <div id="tab-terminal" class="tab-content">
+      <div class="panel" style="border-color: rgba(232, 160, 32, 0.35);">
+        <div style="font-size: 18px; font-weight: 700; color: #ffc043; margin-bottom: 8px;">
+          🖥️ 550C 量子计算机独立终端
+        </div>
+        <p style="font-size: 13px; color: #cbd5e1; line-height: 1.6; margin-bottom: 20px;">
+          流浪地球 550C 全拟真量子计算机系统重写终端。配备系统遥测仪表、固件注入十六进制监视器与 47 节点智能体集群阵列。可作为辅助窗格常驻运行。
+        </p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <a href="sidecar://antigravity-550c/terminal/" style="text-decoration: none;" class="play-boot-btn">
+            <span>🚀 在 Antigravity 侧边栏打开终端</span>
+          </a>
+          <button class="action-btn" style="background: rgba(255,255,255,0.1); color: #fff;" onclick="window.open('http://127.0.0.1:5500', '_blank')">
+            🌐 浏览器中打开 (5500端口)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentConfig = {
+      bootMode: 'simple',
+      playBootOnStartup: false
+    };
+    let availableSkins = [];
+
+    const previewBanners = {
+      'blue-fantasy': 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #38bdf8 100%)',
+      'crystal-frosted': 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 50%, #3b82f6 100%)',
+      'whale-song': 'linear-gradient(135deg, #082f49 0%, #0d9488 50%, #2dd4bf 100%)',
+      'obsidian-dark': 'linear-gradient(135deg, #090d16 0%, #1e1b4b 60%, #818cf8 100%)'
+    };
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        if (btn.getAttribute('data-tab') === tabId) {
+          btn.classList.add('active');
+          if (tabId === 'boot') btn.classList.add('tab-amber');
+          else btn.classList.remove('tab-amber');
+        } else {
+          btn.classList.remove('active');
+          btn.classList.remove('tab-amber');
+        }
+      });
+      document.querySelectorAll('.tab-content').forEach(c => {
+        c.classList.remove('active');
+      });
+      const activeEl = document.getElementById(`tab-${tabId}`);
+      if (activeEl) activeEl.classList.add('active');
+    }
+
+    document.querySelectorAll('.nav-tabs .tab-btn').forEach(btn => {
+      btn.onclick = () => switchTab(btn.getAttribute('data-tab'));
+    });
+
+    async function loadData() {
+      try {
+        const [skinsRes, cfgRes] = await Promise.all([
+          fetch('/api/skins'),
+          fetch('/api/config')
+        ]);
+        availableSkins = await skinsRes.json();
+        currentConfig = await cfgRes.json();
+        renderSkins();
+        syncControls();
+      } catch (e) {
+        console.error('Failed to load data:', e);
+      }
+    }
+
+    function renderSkins() {
+      const container = document.getElementById('skinsContainer');
+      container.innerHTML = '';
+
+      availableSkins.forEach(skin => {
+        const isActive = currentConfig.activeSkin === skin.id;
+        const card = document.createElement('div');
+        card.className = `skin-card ${isActive ? 'active' : ''}`;
+        card.style.setProperty('--card-accent', skin.accentColor || '#38bdf8');
+        
+        const bannerBg = previewBanners[skin.id] || 'linear-gradient(135deg, #1e293b, #3b82f6)';
+
+        card.innerHTML = `
+          <div class="skin-preview-banner" style="background: ${bannerBg}">
+            <span style="font-size: 24px;">${skin.id === 'blue-fantasy' ? '🌌' : skin.id === 'crystal-frosted' ? '💎' : skin.id === 'whale-song' ? '🐋' : '🌑'}</span>
+          </div>
+          <div class="skin-name">${skin.name}</div>
+          <div class="skin-tagline">${skin.tagline || ''}</div>
+          <button class="skin-btn">${isActive ? '正在使用' : '立即启用'}</button>
+        `;
+
+        card.onclick = () => selectSkin(skin);
+        container.appendChild(card);
+      });
+    }
+
+    async function selectSkin(skin) {
+      currentConfig.activeSkin = skin.id;
+      if (skin.defaultParams) {
+        if (skin.defaultParams.scrimOpacity !== undefined) currentConfig.scrimOpacity = skin.defaultParams.scrimOpacity;
+        if (skin.defaultParams.backdropBlur !== undefined) currentConfig.backdropBlur = skin.defaultParams.backdropBlur;
+        if (skin.defaultParams.sidebarAlpha !== undefined) currentConfig.sidebarAlpha = skin.defaultParams.sidebarAlpha;
+        if (skin.defaultParams.composerFrost !== undefined) currentConfig.composerFrost = skin.defaultParams.composerFrost;
+        if (skin.defaultParams.cardAlpha !== undefined) currentConfig.cardAlpha = skin.defaultParams.cardAlpha;
+        if (skin.defaultParams.saturation !== undefined) currentConfig.saturation = skin.defaultParams.saturation;
+      }
+      renderSkins();
+      syncControls();
+      await saveConfig();
+    }
+
+    function syncControls() {
+      document.getElementById('rangeScrim').value = Math.round((currentConfig.scrimOpacity ?? 0.25) * 100);
+      document.getElementById('valScrim').textContent = `${Math.round((currentConfig.scrimOpacity ?? 0.25) * 100)}%`;
+
+      document.getElementById('rangeBlur').value = currentConfig.backdropBlur ?? 14;
+      document.getElementById('valBlur').textContent = `${currentConfig.backdropBlur ?? 14}px`;
+
+      document.getElementById('rangeSidebar').value = Math.round((currentConfig.sidebarAlpha ?? 0.22) * 100);
+      document.getElementById('valSidebar').textContent = `${Math.round((currentConfig.sidebarAlpha ?? 0.22) * 100)}%`;
+
+      document.getElementById('rangeComposer').value = currentConfig.composerFrost ?? 28;
+      document.getElementById('valComposer').textContent = `${currentConfig.composerFrost ?? 28}px`;
+
+      document.getElementById('rangeCard').value = Math.round((currentConfig.cardAlpha ?? 0.50) * 100);
+      document.getElementById('valCard').textContent = `${Math.round((currentConfig.cardAlpha ?? 0.50) * 100)}%`;
+
+      document.getElementById('rangeSat').value = currentConfig.saturation ?? 130;
+      document.getElementById('valSat').textContent = `${currentConfig.saturation ?? 130}%`;
+
+      document.getElementById('videoUrlInput').value = currentConfig.customVideoPath || currentConfig.videoUrl || '';
+
+      document.getElementById('toggleAutoBoot').checked = !!currentConfig.playBootOnStartup;
+
+      // Update mode pills
+      document.querySelectorAll('.mode-pill').forEach(pill => {
+        if (pill.getAttribute('data-mode') === (currentConfig.bootMode || 'simple')) {
+          pill.classList.add('active');
+        } else {
+          pill.classList.remove('active');
+        }
+      });
+
+      // Update preset active chips
+      document.querySelectorAll('.preset-chip').forEach(chip => {
+        if (chip.getAttribute('data-url') === currentConfig.videoUrl) {
+          chip.classList.add('active');
+        } else {
+          chip.classList.remove('active');
+        }
+      });
+
+      // Update display text
+      const isKakashi = currentConfig.videoUrl && currentConfig.videoUrl.includes('kakashi');
+      const isNasa = currentConfig.videoUrl && currentConfig.videoUrl.includes('nasa');
+      document.getElementById('currentVideoNameDisplay').textContent = 
+        isKakashi ? '当前底层联动壁纸：卡卡西·写轮眼狂怒 (Kakashi Live HD)'
+        : isNasa ? '当前底层联动壁纸：NASA 罗马深空星系 (2K 流光)'
+        : '当前底层联动壁纸：自定义背景壁纸';
+    }
+
+    let saveTimer = null;
+    function debouncedSave() {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveConfig, 40);
+    }
+
+    async function saveConfig() {
+      try {
+        await fetch('/api/config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(currentConfig)
+        });
+      } catch (e) {
+        console.error('Failed to save config:', e);
+      }
+    }
+
+    // Sliders event bindings
+    document.getElementById('rangeScrim').oninput = (e) => {
+      const v = parseInt(e.target.value, 10);
+      currentConfig.scrimOpacity = v / 100;
+      document.getElementById('valScrim').textContent = `${v}%`;
+      debouncedSave();
+    };
+
+    document.getElementById('rangeBlur').oninput = (e) => {
+      const v = parseInt(e.target.value, 10);
+      currentConfig.backdropBlur = v;
+      document.getElementById('valBlur').textContent = `${v}px`;
+      debouncedSave();
+    };
+
+    document.getElementById('rangeSidebar').oninput = (e) => {
+      const v = parseInt(e.target.value, 10);
+      currentConfig.sidebarAlpha = v / 100;
+      document.getElementById('valSidebar').textContent = `${v}%`;
+      debouncedSave();
+    };
+
+    document.getElementById('rangeComposer').oninput = (e) => {
+      const v = parseInt(e.target.value, 10);
+      currentConfig.composerFrost = v;
+      document.getElementById('valComposer').textContent = `${v}px`;
+      debouncedSave();
+    };
+
+    document.getElementById('rangeCard').oninput = (e) => {
+      const v = parseInt(e.target.value, 10);
+      currentConfig.cardAlpha = v / 100;
+      document.getElementById('valCard').textContent = `${v}%`;
+      debouncedSave();
+    };
+
+    document.getElementById('rangeSat').oninput = (e) => {
+      const v = parseInt(e.target.value, 10);
+      currentConfig.saturation = v;
+      document.getElementById('valSat').textContent = `${v}%`;
+      debouncedSave();
+    };
+
+    // Mode selection
+    document.querySelectorAll('.mode-pill').forEach(pill => {
+      pill.onclick = async () => {
+        const mode = pill.getAttribute('data-mode');
+        currentConfig.bootMode = mode;
+        syncControls();
+        await saveConfig();
+      };
+    });
+
+    // Auto boot toggle
+    document.getElementById('toggleAutoBoot').onchange = async (e) => {
+      currentConfig.playBootOnStartup = e.target.checked;
+      await saveConfig();
+    };
+
+    // Trigger boot button
+    document.getElementById('triggerBootBtn').onclick = async () => {
+      try {
+        await fetch('/api/play-boot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mode: currentConfig.bootMode || 'simple' })
+        });
+      } catch (e) {
+        console.error('Failed to trigger boot:', e);
+      }
+    };
+
+    // Video Preset Chips
+    document.querySelectorAll('.preset-chip').forEach(chip => {
+      chip.onclick = async () => {
+        const url = chip.getAttribute('data-url');
+        currentConfig.videoUrl = url;
+        currentConfig.customVideoPath = '';
+        syncControls();
+        await saveConfig();
+      };
+    });
+
+    // Apply custom video url / file
+    document.getElementById('applyVideoBtn').onclick = async () => {
+      const val = document.getElementById('videoUrlInput').value.trim();
+      if (!val) return;
+      if (val.startsWith('/') || val.includes(':\\')) {
+        currentConfig.customVideoPath = val;
+        currentConfig.videoUrl = `http://127.0.0.1:5566/api/local-video?path=${encodeURIComponent(val)}`;
+      } else {
+        currentConfig.customVideoPath = '';
+        currentConfig.videoUrl = val;
+      }
+      syncControls();
+      await saveConfig();
+    };
+
+    loadData();
+  </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "id": "whale-song",
+  "name": "深海之歌 (Whale Song)",
+  "tagline": "塞壬空灵微光 · 碧蓝水波与深海青透毛玻璃",
+  "accentColor": "#2dd4bf",
+  "author": "zhu1090093659/dsh-skins",
+  "version": "1.1.0",
+  "themeType": "dark",
+  "recommendedPreset": "nasa-galaxies",
+  "defaultParams": {
+    "scrimOpacity": 0.22,
+    "backdropBlur": 14,
+    "sidebarAlpha": 0.24,
+    "composerFrost": 30,
+    "cardAlpha": 0.48,
+    "saturation": 125,
+    "playbackRate": 1.0
+  }
+}

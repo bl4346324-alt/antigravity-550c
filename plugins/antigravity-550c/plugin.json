@@ -1,7 +1,13 @@
 {
   "name": "antigravity-550c",
-  "displayName": "550C Quantum Terminal",
-  "description": "流浪地球 550C 量子计算机启动终端与系统重写动画交互面板。",
-  "version": "1.0.0",
-  "logo": "assets/logo.png"
+  "displayName": "Antigravity 550C · 量子终端与动态壁纸",
+  "description": "流浪地球 550C 量子开机引导动画与终端，融合 DeepSeek Harness 动态视频壁纸（卡卡西写轮眼/深空/深海等）与毛玻璃皮肤系统，支持开机动画平滑切入主题壁纸。",
+  "version": "2.0.0",
+  "logo": "assets/logo.png",
+  "suggestedPrompts": [
+    "打开 550C 终端与开机动效",
+    "打开动态壁纸控制面板",
+    "切换为卡卡西动态壁纸",
+    "重放 550C 开机启动动画"
+  ]
 }

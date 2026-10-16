@@ -117,13 +117,51 @@ function createShow(stage, options) {
     if (booting || launched) return;
     booting = true;
     const totalMs = playBoot();
-    await sleep(totalMs + 300);
+
     if (mode === 'simple') {
-      // Simple mode: the logo draw-in IS the show. One beat on the finished
-      // mark, then the overlay fades.
-      await sleep(600);
+      // 电影级 550C 启动动画与壁纸无缝联轴加载
+      const minPlayMs = 4000; // 保证用户享受完整的 550C 高科技量子计算机画线发光过程（4.0 秒）
+      const maxWaitMs = 7500; // 最长容忍等待上限，绝不卡死
+      const startTime = Date.now();
+
+      // 先等待基础画线与发光完成
+      await sleep(totalMs + 200);
+
+      const bootText = stage.querySelector('#bootText');
+      if (bootText) {
+        bootText.innerHTML = '550C QUANTUM CORE INITIALIZING<span class="cursor"></span>';
+      }
+
+      // 轮询后台壁纸渲染状态，给后台留够充足的加载时间
+      let isReady = false;
+      while ((Date.now() - startTime) < maxWaitMs) {
+        // 达到最小观赏时间后才允许进入检测流转
+        if ((Date.now() - startTime) >= minPlayMs) {
+          try {
+            const res = await fetch('http://127.0.0.1:5566/api/wallpaper-ready', { cache: 'no-store' });
+            if (res.ok) {
+              const data = await res.json();
+              if (data.ready) {
+                isReady = true;
+                break;
+              }
+            }
+          } catch(e) {}
+        }
+        await sleep(150);
+      }
+
+      if (bootText) {
+        bootText.innerHTML = isReady 
+          ? 'QUANTUM LINK ESTABLISHED · SYSTEM READY' 
+          : '550C SYSTEM INITIALIZED';
+      }
+
+      // 短暂停顿以展现联轴建立完成的节奏点，随后优雅通知原生层溶解切入壁纸
+      await sleep(350);
       return;
     }
+
     const boot = $("#boot");
     if (boot !== null) {
       boot.classList.add("fade");
@@ -619,7 +657,20 @@ async function phaseFinish(){
   activeWindows.forEach(w => { if (w._close) w._close(); });
   await sleep(200);
   $("#final").classList.add("show");
-  await sleep(900);
+
+  // 联轴握手：检测后台 Antigravity 与卡卡西动态壁纸是否已渲染就绪
+  try {
+    for (let i = 0; i < 20; i++) {
+      const res = await fetch('http://127.0.0.1:5566/api/wallpaper-ready', { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.ready) break;
+      }
+      await sleep(150);
+    }
+  } catch(e) {}
+
+  await sleep(850);
 }
 
 async function run(){

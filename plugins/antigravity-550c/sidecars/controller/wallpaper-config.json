@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "activeSkin": "blue-fantasy",
+  "currentPreset": "kakashi-red-eyed-fury",
+  "videoUrl": "http://127.0.0.1:5566/assets/kakashi.mp4",
+  "scrimOpacity": 0.25,
+  "backdropBlur": 14,
+  "sidebarAlpha": 0.22,
+  "composerFrost": 28,
+  "cardAlpha": 0.5,
+  "saturation": 130,
+  "playbackRate": 1,
+  "customVideoPath": "/Users/zhangtianxiang/Downloads/kakashi-red-eyed-fury-HD-live.mp4",
+  "playBootOnStartup": true,
+  "bootMode": "simple"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "crystal-frosted",
+  "name": "晶莹琉璃 (Crystal Frosted)",
+  "tagline": "Aero 晶莹冰晶毛玻璃 · 完美对齐用户参考图高透质感",
+  "accentColor": "#2563eb",
+  "author": "DeepSeek Harness & Antigravity",
+  "version": "1.0.0",
+  "themeType": "light",
+  "recommendedPreset": "crystal-anime",
+  "defaultParams": {
+    "scrimOpacity": 0.12,
+    "backdropBlur": 16,
+    "sidebarAlpha": 0.22,
+    "composerFrost": 32,
+    "cardAlpha": 0.45,
+    "saturation": 125,
+    "playbackRate": 1.0
+  }
+}

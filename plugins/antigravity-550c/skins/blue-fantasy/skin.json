@@ -1,0 +1,19 @@
+{
+  "id": "blue-fantasy",
+  "name": "蔚蓝幻想 (Blue Fantasy)",
+  "tagline": "DeepSeek Harness 经典旗舰 · 鲸落星海与深蓝流光",
+  "accentColor": "#38bdf8",
+  "author": "zhu1090093659/dsh-skins",
+  "version": "1.2.0",
+  "themeType": "dark",
+  "recommendedPreset": "nasa-galaxies",
+  "defaultParams": {
+    "scrimOpacity": 0.25,
+    "backdropBlur": 12,
+    "sidebarAlpha": 0.22,
+    "composerFrost": 28,
+    "cardAlpha": 0.50,
+    "saturation": 130,
+    "playbackRate": 1.0
+  }
+}

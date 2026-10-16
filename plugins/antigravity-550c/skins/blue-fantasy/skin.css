@@ -1,0 +1,228 @@
+/* ========================================================
+   DSH-Skin: Blue Fantasy (蔚蓝幻想)
+   DeepSeek Harness 经典旗舰 · 鲸落星海与深蓝微透流光 (防闪烁优化版)
+   ======================================================== */
+
+:root, .theme-light, .theme-dark, body {
+  --background: transparent !important;
+  --color-background: transparent !important;
+  --foreground: #f1f5f9 !important;
+  --color-foreground: #f1f5f9 !important;
+  --sidebar: rgba(15, 23, 42, var(--dsh-sidebar-alpha, 0.22)) !important;
+  --color-sidebar: rgba(15, 23, 42, var(--dsh-sidebar-alpha, 0.22)) !important;
+  --sidebar-secondary: rgba(56, 189, 248, 0.16) !important;
+  --color-sidebar-secondary: rgba(56, 189, 248, 0.16) !important;
+  --sidebar-muted: rgba(255, 255, 255, 0.06) !important;
+  --color-sidebar-muted: rgba(255, 255, 255, 0.06) !important;
+  --secondary: rgba(255, 255, 255, 0.08) !important;
+  --color-secondary: rgba(255, 255, 255, 0.08) !important;
+  --secondary-foreground: #f1f5f9 !important;
+  --color-secondary-foreground: #f1f5f9 !important;
+  --muted: rgba(30, 41, 59, 0.50) !important;
+  --color-muted: rgba(30, 41, 59, 0.50) !important;
+  --muted-foreground: #94a3b8 !important;
+  --color-muted-foreground: #94a3b8 !important;
+  --border: rgba(147, 197, 253, 0.18) !important;
+  --color-border: rgba(147, 197, 253, 0.18) !important;
+  --card: rgba(15, 23, 42, var(--dsh-card-alpha, 0.50)) !important;
+  --color-card: rgba(15, 23, 42, var(--dsh-card-alpha, 0.50)) !important;
+  --color-card-border: rgba(147, 197, 253, 0.22) !important;
+  --input: rgba(15, 23, 42, 0.65) !important;
+  --primary: #38bdf8 !important;
+  --color-primary: #38bdf8 !important;
+  --color-selection-background: rgba(56, 189, 248, 0.30) !important;
+  --vscode-sideBar-background: rgba(15, 23, 42, var(--dsh-sidebar-alpha, 0.22)) !important;
+  --vscode-titleBar-activeBackground: transparent !important;
+  --vscode-editorPane-background: transparent !important;
+  color: #f1f5f9 !important;
+}
+
+html, body, #root, .bg-background {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* 彻底消除主聊天窗口弹性过度滚动与底部空白漂移 */
+html, body, #root,
+.h-full.overflow-y-auto,
+.overflow-y-auto,
+div[class*="overflow-y-auto"] {
+  overscroll-behavior: none !important;
+  overscroll-behavior-y: none !important;
+}
+
+/* 锁定外层容器，杜绝与内层会话产生双重滚动错位 */
+.w-full.flex.h-full.min-h-0.flex-col.items-center.relative.outline-none.overflow-y-auto {
+  overflow-y: hidden !important;
+  overscroll-behavior: none !important;
+}
+
+/* 彻底消除最后一条消息强制撑开整屏(calc(100cqh - 50px))导致的底部巨大空白与过度滑动 */
+.isolate.h-full.overflow-y-auto .relative.flex.flex-col.gap-y-3 > div.flex.items-start[style*="min-height"],
+.isolate.h-full.overflow-y-auto .relative.flex.flex-col.gap-y-3 > div.flex.items-start:last-child {
+  min-height: 0 !important;
+}
+
+/* 消除多余的底部空白占位 div */
+.isolate.h-full.overflow-y-auto .relative.w-full > div[style*="height: 48px"] {
+  height: 16px !important;
+}
+
+/* 消除所有刺眼白雾伪元素与渐变条 (绝不隐藏主消息容器) */
+.md-sticky-message-bleed::after {
+  display: none !important;
+  background: transparent !important;
+}
+div[style*="linear-gradient"].pointer-events-none,
+.pointer-events-none.absolute.bottom-0.z-10[style*="linear-gradient"] {
+  display: none !important;
+}
+
+.border-border {
+  background-color: transparent !important;
+  border-color: rgba(147, 197, 253, 0.15) !important;
+}
+
+/* 侧边栏独立单层毛玻璃 (GPU硬件隔离防闪烁) */
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar {
+  background: linear-gradient(180deg, rgba(15, 23, 42, var(--dsh-sidebar-alpha, 0.22)) 0%, rgba(20, 30, 55, calc(var(--dsh-sidebar-alpha, 0.22) * 0.8)) 100%) !important;
+  backdrop-filter: blur(28px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
+  border-right: 1px solid rgba(147, 197, 253, 0.18) !important;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25) !important;
+  contain: paint !important;
+  transform: translateZ(0) !important;
+}
+
+/* 清理侧边栏内部堆叠背景，避免嵌套计算 */
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar * {
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* 顶部与底部核心操作药丸按钮 (使用透明度贴合，不加二次blur避免GPU闪烁) */
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar > div.px-2 a,
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar > div.px-2 button,
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar .group\/section-header + div button,
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar > div.mt-auto button,
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar button[data-testid="project-header"],
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar button.group\/headerbtn {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(147, 197, 253, 0.22) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.20) !important;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+  color: #f1f5f9 !important;
+}
+
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar button[data-testid="project-header"],
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar button.group\/headerbtn {
+  padding-left: 8px !important;
+  padding-right: 52px !important;
+  height: 32px !important;
+}
+
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar a:hover,
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar button:hover,
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar .group\/headerbtn:hover,
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar button[data-testid="project-header"]:hover {
+  background: rgba(56, 189, 248, 0.20) !important;
+  border-color: rgba(56, 189, 248, 0.50) !important;
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.22) !important;
+}
+
+/* 展开态项目卡片 */
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar button[data-testid="project-header"][aria-expanded="true"],
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar button.group\/headerbtn[aria-expanded="true"] {
+  background: rgba(56, 189, 248, 0.14) !important;
+  border-color: rgba(56, 189, 248, 0.38) !important;
+  box-shadow: 0 2px 10px rgba(56, 189, 248, 0.15) !important;
+}
+
+/* 悬停项目时右侧快捷微按钮 (... 与 +) */
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar .group\/header:hover .absolute.right-1 button,
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar .group\/header:hover .absolute.right-1 a {
+  background: rgba(15, 23, 42, 0.65) !important;
+  border: 1px solid rgba(147, 197, 253, 0.25) !important;
+  border-radius: 8px !important;
+  backdrop-filter: none !important;
+}
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar .group\/header:hover .absolute.right-1 button:hover,
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar .group\/header:hover .absolute.right-1 a:hover {
+  background: rgba(56, 189, 248, 0.35) !important;
+  border-color: rgba(56, 189, 248, 0.60) !important;
+  color: #ffffff !important;
+}
+
+/* 虚拟列表吸顶标题遮蔽防穿透 */
+div[data-sidebar-section-drop-id="main-section-header"] {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border-bottom: 1px solid rgba(147, 197, 253, 0.18) !important;
+  z-index: 20 !important;
+}
+
+/* 活跃会话药丸高亮 */
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar .bg-sidebar-secondary {
+  background: rgba(56, 189, 248, 0.22) !important;
+  border: 1px solid rgba(56, 189, 248, 0.45) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 10px rgba(56, 189, 248, 0.18) !important;
+}
+
+div.h-full.w-full.flex.flex-col.pb-2.bg-sidebar * {
+  color: #f1f5f9 !important;
+}
+
+/* 顶栏通透 */
+header, [role="banner"], nav {
+  background: rgba(15, 23, 42, 0.35) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(147, 197, 253, 0.15) !important;
+  color: #f1f5f9 !important;
+}
+header *, [role="banner"] *, nav * {
+  color: #f1f5f9 !important;
+}
+
+/* 底部悬浮圆角胶囊输入框 */
+.bg-card-border {
+  border-radius: 24px !important;
+  padding: 1px !important;
+  background: linear-gradient(135deg, rgba(147, 197, 253, 0.35), rgba(56, 189, 248, 0.15)) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.40), 0 0 25px rgba(56, 189, 248, 0.12) !important;
+  contain: paint !important;
+}
+
+.bg-card-border > .bg-card {
+  border-radius: 23px !important;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.70), rgba(20, 32, 60, 0.55)) !important;
+  backdrop-filter: blur(var(--dsh-composer-frost, 28px)) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(var(--dsh-composer-frost, 28px)) saturate(190%) !important;
+  border: 1px solid rgba(147, 197, 253, 0.25) !important;
+}
+
+.bg-card [contenteditable="true"],
+.bg-card textarea {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #f8fafc !important;
+}
+
+/* 对话气泡与卡片质感 */
+.bg-muted, .card, [role="region"], .rounded-xl {
+  background-color: rgba(15, 23, 42, var(--dsh-card-alpha, 0.50)) !important;
+  border: 1px solid rgba(147, 197, 253, 0.18) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+  color: #f1f5f9 !important;
+}
+
+p, span, div, h1, h2, h3, h4, h5, h6 {
+  color: #f1f5f9;
+}
+.text-muted-foreground {
+  color: #94a3b8 !important;
+}
