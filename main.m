@@ -21,10 +21,19 @@
 @implementation AppDelegate
 
 - (NSURL *)determineTargetAppURL {
+    NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
     NSString *hansPath = @"/Applications/Antigravity 中文.app";
     NSString *stdPath = @"/Applications/Antigravity.app";
     NSFileManager *fm = [NSFileManager defaultManager];
-    if ([fm fileExistsAtPath:hansPath]) {
+    
+    // If running inside Antigravity 中文.app, launch the actual Antigravity.app
+    if ([bundlePath containsString:@"Antigravity 中文.app"]) {
+        if ([fm fileExistsAtPath:stdPath]) {
+            return [NSURL fileURLWithPath:stdPath];
+        }
+    }
+    
+    if ([fm fileExistsAtPath:hansPath] && ![bundlePath isEqualToString:hansPath]) {
         return [NSURL fileURLWithPath:hansPath];
     }
     if ([fm fileExistsAtPath:stdPath]) {

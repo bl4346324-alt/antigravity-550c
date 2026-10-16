@@ -21,11 +21,10 @@
   - 终末中央通告：`SYSTEM IS REWRITTEN · ANTIGRAVITY READY`。
 - 🎨 **原版琥珀金 CRT 配色**：极致还原电影中 550C 终端特有的暖黄/琥珀荧光色阶与等宽字符质感。
 - 🚀 **双模支持（两种使用方式）**：
-  1. **模式一：macOS 原生开机启动器 (`Antigravity 550C.app`)**
-     - 双击启动后立即展示 550C 启动画面；
-     - 后台并发预热拉起 `/Applications/Antigravity 中文.app`；
-     - 动画播完或跳过时，窗口平滑淡出，焦点无缝切换到 Antigravity 中文版，**零等待时间**！
-     - 按下 <kbd>Esc</kbd> 键或点击屏幕任意位置可随时跳过。
+  1. **模式一：直接集成至「Antigravity 中文.app」或独立启动器 (`Antigravity 550C.app`)**
+     - 无需改变习惯，平时直接点击已有的 **`Antigravity 中文.app`** 即可自动触发 550C 引导；
+     - 屏幕中央弹出居中悬浮科技窗口（黄金比例，告别全屏拉伸与撑大感）；
+     - 后台并发预热拉起 Antigravity 主程序，播完或随时按下 <kbd>Esc</kbd> / 点击跳过后无缝切入，**零等待时间**！
   2. **模式二：Antigravity 内置插件面板 (`antigravity-550c`)**
      - 直接内嵌在 Antigravity 的**辅助窗格 (Aux Pane)** 中；
      - 包含右上角浮动控制条：支持随时「**↺ 重播序列**」重新欣赏完整动画，或「**▶ 跳过动画**」直达终端；
@@ -46,18 +45,17 @@
 ```
 
 该脚本会自动：
-1. 将 `Antigravity 550C.app` 安装到你的 `/Applications`（启动台与访达均可见）；
-2. 将 `antigravity-550c` 插件安装到 `~/.gemini/config/plugins/antigravity-550c/`；
-3. 向当前运行的 Antigravity 语言服务发送 RPC 指令实时激活插件。
+1. **直接无缝注入 `/Applications/Antigravity 中文.app`**（平时点它就会先出现 550C 开机画面！）；
+2. 同时安装独立的 `Antigravity 550C.app` 到你的 `/Applications`；
+3. 将 `antigravity-550c` 插件安装到 `~/.gemini/config/plugins/antigravity-550c/` 并实时激活。
 
 ---
 
 ### 使用方式
 
-#### 1. 作为开机引导启动器
-- 在访达「应用程序」或「启动台 (Launchpad)」中找到 **Antigravity 550C**。
-- 将其拖拽至屏幕底部的 **程序坞 (Dock)**。
-- 每次点击它即可欣赏电影质感的 550C 开机序列，随后自动切入 Antigravity 工作区！
+#### 1. 开机引导启动
+- 直接双击打开平时用的 **Antigravity 中文.app**（或新安装的 **Antigravity 550C.app**）；
+- 屏幕中央立即呈现高质感 550C 开机序列，随后自动无缝切入 Antigravity！
 
 #### 2. 在 Antigravity 内部作为侧边栏面板使用
 - 在对话中直接点击终端链接：
