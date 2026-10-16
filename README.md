@@ -20,23 +20,17 @@
   - 汇编固件流式注入与实时 CRC32 校验；
   - 终末中央通告：`SYSTEM IS REWRITTEN · ANTIGRAVITY READY`。
 - 🎨 **原版琥珀金 CRT 配色**：极致还原电影中 550C 终端特有的暖黄/琥珀荧光色阶与等宽字符质感。
-- 🚀 **双模支持（两种使用方式）**：
-  1. **模式一：直接集成至「Antigravity 中文.app」或独立启动器 (`Antigravity 550C.app`)**
-     - 无需改变习惯，平时直接点击已有的 **`Antigravity 中文.app`** 即可自动触发 550C 引导；
-     - 屏幕中央弹出居中悬浮科技窗口（黄金比例，告别全屏拉伸与撑大感）；
-     - 后台并发预热拉起 Antigravity 主程序，播完或随时按下 <kbd>Esc</kbd> / 点击跳过后无缝切入，**零等待时间**！
-  2. **模式二：Antigravity 内置插件面板 (`antigravity-550c`)**
-     - 直接内嵌在 Antigravity 的**辅助窗格 (Aux Pane)** 中；
-     - 包含右上角浮动控制条：支持随时「**↺ 重播序列**」重新欣赏完整动画，或「**▶ 跳过动画**」直达终端；
-     - 动画播完后保持量子终端常驻活跃状态：实时时钟心跳、遥测波形跳动、集群节点绿色在线；
-     - 针对侧边栏宽窄屏自动自适应排列，自洽融入 IDE 界面；
-     - 提供 `/550c` 专属 Skill 指令，支持一键呼出与唤起。
+- 🚀 **全入口自动触发（无需选择项目即可享受）**：
+  1. **全局启动守护 (LaunchAgent)**：通过 macOS 用户守护服务监听 Antigravity 启动，无论通过 Dock、Spotlight、Finder 打开官方 `Antigravity.app` 还是 `Antigravity 中文.app`，均在**点击打开 App 的第一时间自动全屏播放 550C 动画**，随后**丝滑淡出过渡至卡卡西 2K 动态视频壁纸**！
+  2. **项目选择页无需等待**：打开 App 进入欢迎与项目选择界面时，卡卡西壁纸已全屏就绪，再也不需要「先点击一个具体项目才渲染壁纸」；
+  3. **独立启动器 (`Antigravity 550C.app`) / 注入启动器 (`Antigravity 中文.app`)**：支持原生悬浮小窗预热引导；
+  4. **Antigravity 内置插件面板**：侧边栏实时调整毛玻璃不透明度、模糊度、壁纸预设，并支持一键重新播放 550C 开机动画。
 
 ---
 
 ## 🚀 安装与使用
 
-### 一键安装全部（启动器 + 插件）
+### 一键安装全部（启动器 + 全局守护 + 插件）
 
 在项目根目录下执行安装脚本：
 
@@ -44,18 +38,19 @@
 ./install.sh
 ```
 
-该脚本会自动：
-1. **直接无缝注入 `/Applications/Antigravity 中文.app`**（平时点它就会先出现 550C 开机画面！）；
-2. 同时安装独立的 `Antigravity 550C.app` 到你的 `/Applications`；
-3. 将 `antigravity-550c` 插件安装到 `~/.gemini/config/plugins/antigravity-550c/` 并实时激活。
+该脚本会自动完成：
+1. **安装 550C 全局常驻守护服务 (`~/Library/LaunchAgents/com.antigravity.550c.daemon.plist`)**：点击任意 Antigravity 图标即刻触发 550C 启动动画与卡卡西壁纸流转；
+2. **将原生引导器注入 `/Applications/Antigravity 中文.app`** 并安装 `Antigravity 550C.app`；
+3. **将插件安装到 `~/.gemini/config/plugins/antigravity-550c/`** 并配置为 Dark 模式（彻底根除原生启动白屏闪烁）。
 
 ---
 
 ### 使用方式
 
 #### 1. 开机引导启动
-- 直接双击打开平时用的 **Antigravity 中文.app**（或新安装的 **Antigravity 550C.app**）；
-- 屏幕中央立即呈现高质感 550C 开机序列，随后自动无缝切入 Antigravity！
+- 直接双击平时使用的 **Antigravity.app** 或 **Antigravity 中文.app**（或通过 Spotlight / Dock 打开）；
+- 立即全屏自动播放 550C 量子计算机开机覆写动效（按 <kbd>Esc</kbd> 或点击可随时跳过）；
+- 动画播完平滑消散，丝滑流转至卡卡西写轮眼动态壁纸；在欢迎页与选择项目界面背景已完全渲染！
 
 #### 2. 在 Antigravity 内部作为侧边栏面板使用
 - 在对话中直接点击终端链接：

@@ -165,11 +165,11 @@
         return event;
     }];
     
-    // Watchdog timer: dismiss after 26.0 seconds maximum to allow full sequence to complete
+    // Watchdog timer: dismiss after 30.0 seconds maximum to allow full sequence to complete
     if (self.watchdogTimer) {
         [self.watchdogTimer invalidate];
     }
-    self.watchdogTimer = [NSTimer scheduledTimerWithTimeInterval:26.0 repeats:NO block:^(NSTimer *timer) {
+    self.watchdogTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 repeats:NO block:^(NSTimer *timer) {
         [weakSelf finishSplash];
     }];
 }
