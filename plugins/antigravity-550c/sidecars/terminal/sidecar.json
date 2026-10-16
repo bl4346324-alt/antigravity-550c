@@ -1,0 +1,20 @@
+{
+  "command": "node",
+  "args": [
+    "main.mjs"
+  ],
+  "restart_policy": "always",
+  "display_name": "550C Quantum Terminal",
+  "description": "流浪地球 550C 启动动画与量子计算机终端交互面板",
+  "has_web_ui": true,
+  "ui_config": {
+    "display_name": "550C Terminal",
+    "views": [
+      {
+        "path": "/",
+        "entrypoint": "SIDECAR_UI_ENTRYPOINT_AUX_PANE",
+        "title": "550C Terminal"
+      }
+    ]
+  }
+}

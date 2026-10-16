@@ -1,17 +1,17 @@
-# Antigravity 550C 启动器 (流浪地球 550C 开机动画)
+# Antigravity 550C (流浪地球 550C 启动器与量子终端插件)
 
 <p align="center">
   <img src="AppIcon.icns" width="128" height="128" alt="Antigravity 550C Icon" />
 </p>
 
 <p align="center">
-  专为 <b>Google Antigravity 中文版</b> 定制的《流浪地球2》550C 量子计算机开机引导启动器。<br/>
-  启动时全屏播放硬核科技感 550C 开机序列，后台并发预热主程序，播完无缝切入工作区。
+  专为 <b>Google Antigravity 中文版</b> 打造的《流浪地球2》550C 量子计算机开机动画启动器与内置终端插件。<br/>
+  支持 <b>macOS 原生独立启动器</b> 与 <b>Antigravity 内部 Sidecar 插件面板</b> 双模式！
 </p>
 
 ---
 
-## 🌟 特性
+## 🌟 核心特性
 
 - 🎬 **完整 550C 覆写序列（约 16 秒）**：
   - 550C 矢量 Logo 逐路径笔画描边书写与辉光脉冲；
@@ -20,56 +20,66 @@
   - 汇编固件流式注入与实时 CRC32 校验；
   - 终末中央通告：`SYSTEM IS REWRITTEN · ANTIGRAVITY READY`。
 - 🎨 **原版琥珀金 CRT 配色**：极致还原电影中 550C 终端特有的暖黄/琥珀荧光色阶与等宽字符质感。
-- ⚡ **无感预热与无缝衔接**：
-  - 双击启动后立即展示 550C 启动画面；
-  - 后台静默并发拉起 `/Applications/Antigravity 中文.app`（若无则回退到 `/Applications/Antigravity.app`）；
-  - 动画播完或跳过时，窗口平滑淡出，焦点无缝切换到 Antigravity 中文版，**零等待时间**！
-- ⏭️ **随时即时跳过**：按下 <kbd>Esc</kbd> 键或**点击屏幕任意位置**，立即打断动画淡出并激活主程序。
-- 🛡️ **原生轻量与零侵入**：
-  - 采用原生 Objective-C + Cocoa + WKWebView 编写，编译二进制仅 ~75 KB，毫秒级冷启动；
-  - 零侵入独立启动器架构，完全不修改 Antigravity 官方安装包，代码签名完好，软件自动升级不失效；
-  - 配备高清 1024x1024 专属 550C 视网膜图标（`AppIcon.icns`）。
+- 🚀 **双模支持（两种使用方式）**：
+  1. **模式一：macOS 原生开机启动器 (`Antigravity 550C.app`)**
+     - 双击启动后立即展示 550C 启动画面；
+     - 后台并发预热拉起 `/Applications/Antigravity 中文.app`；
+     - 动画播完或跳过时，窗口平滑淡出，焦点无缝切换到 Antigravity 中文版，**零等待时间**！
+     - 按下 <kbd>Esc</kbd> 键或点击屏幕任意位置可随时跳过。
+  2. **模式二：Antigravity 内置插件面板 (`antigravity-550c`)**
+     - 直接内嵌在 Antigravity 的**辅助窗格 (Aux Pane)** 中；
+     - 包含右上角浮动控制条：支持随时「**↺ 重播序列**」重新欣赏完整动画，或「**▶ 跳过动画**」直达终端；
+     - 动画播完后保持量子终端常驻活跃状态：实时时钟心跳、遥测波形跳动、集群节点绿色在线；
+     - 针对侧边栏宽窄屏自动自适应排列，自洽融入 IDE 界面；
+     - 提供 `/550c` 专属 Skill 指令，支持一键呼出与唤起。
 
 ---
 
 ## 🚀 安装与使用
 
-### 1. 克隆仓库
-```bash
-git clone https://github.com/bl4346324-alt/antigravity-550c.git
-cd antigravity-550c
-```
+### 一键安装全部（启动器 + 插件）
 
-### 2. 直接运行
-仓库已内置预编译好的应用，直接运行：
-```bash
-open "Antigravity 550C.app"
-```
+在项目根目录下执行安装脚本：
 
-### 3. 一键安装到应用程序目录
-执行安装脚本：
 ```bash
 ./install.sh
 ```
-该脚本会将 `Antigravity 550C.app` 安装到你的 `/Applications`（或 `~/Applications`）。
 
-### 4. 固定到程序坞 (Dock)
-从访达的「应用程序」或启动台 (Launchpad) 将 **Antigravity 550C** 拖入屏幕下方的 **程序坞 (Dock)**。以后直接点击它启动 Antigravity，尽享硬核科幻仪式感！
+该脚本会自动：
+1. 将 `Antigravity 550C.app` 安装到你的 `/Applications`（启动台与访达均可见）；
+2. 将 `antigravity-550c` 插件安装到 `~/.gemini/config/plugins/antigravity-550c/`；
+3. 向当前运行的 Antigravity 语言服务发送 RPC 指令实时激活插件。
+
+---
+
+### 使用方式
+
+#### 1. 作为开机引导启动器
+- 在访达「应用程序」或「启动台 (Launchpad)」中找到 **Antigravity 550C**。
+- 将其拖拽至屏幕底部的 **程序坞 (Dock)**。
+- 每次点击它即可欣赏电影质感的 550C 开机序列，随后自动切入 Antigravity 工作区！
+
+#### 2. 在 Antigravity 内部作为侧边栏面板使用
+- 在对话中直接点击终端链接：
+  - [550C Quantum Terminal](sidecar://antigravity-550c/terminal/)
+- 或者在聊天框中输入 `/550c` 触发该技能面板。
+- 在插件管理页面中亦可查看并管理：`[antigravity-550c](customization://antigravity-550c)`。
 
 ---
 
 ## 🛠️ 自行构建 (从源码构建)
 
-如果对样式、文案或逻辑进行了修改，可以运行内置的一键构建脚本重新编译应用：
+如果对样式、文案或逻辑进行了修改，可以运行内置的一键构建脚本：
 
 ```bash
 ./build.sh
 ```
 
 构建脚本会自动完成：
-1. 组装最新的 `550c.html` 动画页面；
-2. 编译原生 `Antigravity550C` 可执行文件；
-3. 打包生成 `Antigravity 550C.app` 应用程序包并自动签名。
+1. 组装最新的原生启动器页面 `550c.html`；
+2. 构建并适配 Antigravity Sidecar 插件面板页面 `plugins/antigravity-550c/sidecars/terminal/index.html`；
+3. 编译原生 `Antigravity550C` Mach-O arm64 二进制文件；
+4. 打包生成 `Antigravity 550C.app` 并完成 Ad-hoc 签名。
 
 ---
 
@@ -77,19 +87,29 @@ open "Antigravity 550C.app"
 
 ```
 antigravity-550c/
-├── Antigravity 550C.app/       # 🚀 构建好的 macOS 原生应用程序包（开箱即用）
+├── Antigravity 550C.app/                 # 🚀 macOS 原生启动器应用包（开箱即用）
 │   └── Contents/
-│       ├── Info.plist          # 应用元数据与权限声明
-│       ├── MacOS/              # 原生可执行文件 (Mach-O arm64)
-│       └── Resources/          # 550c.html 页面与 AppIcon.icns 图标
-├── main.m                      # ⚙️ 原生 Cocoa 启动器源码
-├── 550c.html                   # 🎬 550C 琥珀金完整开机动画文件
-├── AppIcon.icns                # 🎨 1024x1024 高清 550C 视网膜应用图标
-├── build.sh                    # 🛠️ 一键编译与打包脚本
-├── build_app_html.py           # 📄 动画页面构建与定制脚本
-├── install.sh                  # 📦 一键安装到应用程序目录脚本
-├── .gitignore                  # Git 忽略配置
-└── README.md                   # 📖 项目文档
+│       ├── Info.plist                    # 应用元数据
+│       ├── MacOS/Antigravity550C         # 原生可执行文件 (Mach-O arm64)
+│       └── Resources/                    # 550c.html 页面与 AppIcon.icns
+├── plugins/antigravity-550c/             # 🧩 Antigravity 内置插件包
+│   ├── plugin.json                       # 插件清单 (Manifest)
+│   ├── assets/logo.png                   # 插件图标
+│   ├── skills/550c/SKILL.md              # /550c 技能描述与快捷跳转
+│   └── sidecars/terminal/                # 侧边栏 Web UI (Sidecar)
+│       ├── sidecar.json                  # Sidecar 配置 (SIDECAR_UI_ENTRYPOINT_AUX_PANE)
+│       ├── package.json                  # ESM 模块声明
+│       ├── main.mjs                      # 轻量 Sidecar 服务端
+│       └── index.html                    # 550C 响应式交互终端页面
+├── main.m                                # ⚙️ 原生 Cocoa 启动器源码
+├── 550c.html                             # 🎬 550C 原生启动器单页
+├── AppIcon.icns                          # 🎨 1024x1024 高清视网膜图标
+├── build_app_html.py                     # 📄 原生启动器 HTML 构建脚本
+├── build_sidecar_html.py                 # 📄 Sidecar 插件 HTML 构建脚本
+├── build.sh                              # 🛠️ 一键编译打包脚本
+├── install.sh                            # 📦 一键安装脚本
+├── .gitignore                            # Git 忽略配置
+└── README.md                             # 📖 项目文档
 ```
 
 ---
